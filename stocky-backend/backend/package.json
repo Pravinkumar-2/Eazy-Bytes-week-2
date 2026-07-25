@@ -1,0 +1,20 @@
+{
+  "name": "stocky-backend",
+  "version": "1.0.0",
+  "description": "Backend API for the Stocky stock market app -- auth, stocks, portfolio, transactions, watchlist, favorites, price alerts.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^5.8.0",
+    "ws": "^8.16.0"
+  }
+}
