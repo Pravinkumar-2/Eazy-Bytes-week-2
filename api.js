@@ -5,15 +5,28 @@ import axios from "axios";
  * localStorage and attaches it as a Bearer token automatically; on a
  * 401 it clears the stored session so the app can redirect to login.
  *
- * Set REACT_APP_API_URL (Create React App) or VITE_API_URL (Vite) in
- * your .env to point this at a deployed backend; defaults to the local
- * Express server from the /backend folder.
+ * For deployment, set VITE_API_URL in Vercel to your Render backend URL
+ * (for example https://your-service-name.onrender.com). Local development
+ * falls back to the Express server on port 4000.
  */
 
-const baseURL =
-  (typeof process !== "undefined" && process.env && process.env.REACT_APP_API_URL) ||
-  (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL) ||
-  "http://localhost:4000/api";
+const getApiBaseUrl = () => {
+  const envUrl =
+    (typeof process !== "undefined" && process.env && process.env.REACT_APP_API_URL) ||
+    (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL);
+
+  if (envUrl) {
+    return envUrl.endsWith("/api") ? envUrl : `${envUrl.replace(/\/+$/, "")}/api`;
+  }
+
+  if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+    return "/api";
+  }
+
+  return "http://localhost:4000/api";
+};
+
+const baseURL = getApiBaseUrl();
 
 export const api = axios.create({ baseURL });
 
